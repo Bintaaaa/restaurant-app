@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:submission_bfaf_1/data/restaurants.dart';
 import 'package:submission_bfaf_1/style/color.dart';
 import 'package:submission_bfaf_1/style/const.dart';
 import 'package:submission_bfaf_1/style/text_style.dart';
@@ -36,9 +37,9 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    Widget _cardRestaurant(){
+    Widget _cardRestaurant(BuildContext context, Restaurants restaurant) {
       return GestureDetector(
-        onTap: (){
+        onTap: () {
           Navigator.pushNamed(context, '/detail-restaurant');
         },
         child: Container(
@@ -51,7 +52,7 @@ class HomePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   image: DecorationImage(
-                      image: AssetImage("assets/14.jpg"),
+                      image: NetworkImage(restaurant.pictureId),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -72,18 +73,19 @@ class HomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Kafe Kita",
+                                restaurant.name.toString(),
                                 style: myTexTheme.headline6,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               Row(
                                 children: [
                                   Image.asset("assets/star_rate.png"),
                                   Text(
-                                    "4",
+                                    restaurant.rating.toString(),
+                                    overflow: TextOverflow.ellipsis,
                                     style: myTexTheme.caption!
                                         .copyWith(fontSize: 18),
                                   )
@@ -95,7 +97,11 @@ class HomePage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Image.asset("assets/location_on.png"),
-                              Text("Gorontalo",style: myTexTheme.caption!.copyWith(fontSize: 18,color: softGreenColor),)
+                              Text(
+                                restaurant.city,
+                                style: myTexTheme.caption!.copyWith(
+                                    fontSize: 18, color: softGreenColor),
+                              )
                             ],
                           )
                         ],
@@ -122,7 +128,22 @@ class HomePage extends StatelessWidget {
               children: [
                 _header(),
                 _searchBar(),
-                _cardRestaurant()
+                FutureBuilder<String>(
+                  future: DefaultAssetBundle.of(context)
+                      .loadString('assets/local_restaurant.json'),
+                  builder: (context, snapshot) {
+                    final List<Restaurants> restaurant =
+                        parseRestaurants(snapshot.data);
+                    return ListView.builder(
+                      primary: false, // untuk scroll bila didalam scrollview
+                      shrinkWrap: true,
+                      itemCount: restaurant.length,
+                      itemBuilder: (context, index) {
+                        return _cardRestaurant(context, restaurant[index]);
+                      },
+                    );
+                  },
+                )
               ],
             ),
           ),
