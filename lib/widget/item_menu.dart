@@ -3,7 +3,8 @@ import 'package:submission_bfaf_1/style/color.dart';
 import 'package:submission_bfaf_1/style/text_style.dart';
 
 class ItemMenu extends StatelessWidget {
-  const ItemMenu({Key? key}) : super(key: key);
+  final String name;
+  const ItemMenu({Key? key, required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +17,17 @@ class ItemMenu extends StatelessWidget {
         color: softGreenColor,
         borderRadius: BorderRadius.circular(30),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Ikan Kakap Bakar",
-            style: myTexTheme.headline6?.copyWith(color: whiteColor),
-          ),
-          Image.asset("assets/icon_plus.png"),
-        ],
+      child: Expanded(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              name,
+              style: myTexTheme.headline6?.copyWith(color: whiteColor),
+            ),
+            Image.asset("assets/icon_plus.png"),
+          ],
+        ),
       ),
     );
   }

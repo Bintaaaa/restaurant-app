@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
     Widget _cardRestaurant(BuildContext context, Restaurants restaurant) {
       return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/detail-restaurant');
+          Navigator.pushNamed(context, '/detail-restaurant', arguments: restaurant);
         },
         child: Container(
           margin: EdgeInsets.only(bottom: defaultMargin),

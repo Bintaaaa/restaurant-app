@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:submission_bfaf_1/data/restaurants.dart';
 import 'package:submission_bfaf_1/style/color.dart';
 import 'package:submission_bfaf_1/style/const.dart';
 import 'package:submission_bfaf_1/style/text_style.dart';
 import 'package:submission_bfaf_1/widget/item_menu.dart';
 
 class DetailRestaurantPage extends StatelessWidget {
-  const DetailRestaurantPage({Key? key}) : super(key: key);
+  final Restaurants restaurants;
+
+  const DetailRestaurantPage({Key? key, required this.restaurants})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Widget _imageRestaurant() {
-      return Image.asset(
-        "assets/14.jpg",
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.6,
+      return Image.network(
+        restaurants.pictureId,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height * 0.6,
         fit: BoxFit.cover,
       );
+    }
+
+    Widget _itemMenu(context, index) {
+      return ItemMenu(name: index,);
     }
 
     Widget _detailRestaurant() {
@@ -23,23 +37,29 @@ class DetailRestaurantPage extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: Container(
           margin:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
+          EdgeInsets.only(top: MediaQuery
+              .of(context)
+              .size
+              .height * 0.5),
           padding: EdgeInsets.all(defaultPadding),
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
           decoration: BoxDecoration(
               color: whiteColor, borderRadius: BorderRadius.circular(30)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Nama Restaurant",
+                restaurants.name,
                 style: myTexTheme.headline5,
               ),
               SizedBox(
                 height: 24,
               ),
               Text(
-                " is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap",
+                restaurants.description,
                 style: myTexTheme.caption,
               ),
               SizedBox(
@@ -49,10 +69,14 @@ class DetailRestaurantPage extends StatelessWidget {
                 "Foods",
                 style: myTexTheme.headline6,
               ),
-              ItemMenu(),
-              ItemMenu(),
-              ItemMenu(),
-              ItemMenu(),
+              ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                primary: false,
+                itemCount: restaurants.menus.foods.length,
+                itemBuilder: (context, index) => _itemMenu(context, restaurants.menus.foods.map((e) => e.name).toList()[index].toString())
+                ,
+              ),
               SizedBox(
                 height: 24,
               ),
@@ -60,8 +84,13 @@ class DetailRestaurantPage extends StatelessWidget {
                 "Drinks",
                 style: myTexTheme.headline6,
               ),
-              ItemMenu(),
-              ItemMenu(),
+              ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                primary: false,
+                itemCount: restaurants.menus.drinks.length,
+                itemBuilder: (context,index) => _itemMenu(context, restaurants.menus.drinks.map((e) => e.name).toList()[index].toString()),
+              ),
             ],
           ),
         ),
@@ -71,7 +100,7 @@ class DetailRestaurantPage extends StatelessWidget {
     Widget _btnBack() {
       return SafeArea(
         child: InkWell(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
           },
           child: Container(

@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Kotak Temu",
       theme: ThemeData(
         textTheme: myTexTheme,
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => SplashscreenPage(),
         '/get-started': (context) => GetStartedPage(),
         '/home': (context) => HomePage(),
-        '/detail-restaurant': (context) => DetailRestaurantPage()
+        '/detail-restaurant': (context) => DetailRestaurantPage(restaurants: ModalRoute.of(context)?.settings.arguments as dynamic)
       },
     );
   }

@@ -30,27 +30,26 @@ class GetStartedPage extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.only(bottom: defaultMargin),
             width: MediaQuery.of(context).size.width * 0.89,
-            height: MediaQuery.of(context).size.height * 0.38,
+            height: MediaQuery.of(context).size.width * 0.6,
             decoration: BoxDecoration(
                 color: whiteColor, borderRadius: BorderRadius.circular(30)),
             child: Padding(
               padding: EdgeInsets.all(defaultPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Wrap(
                 children: [
                   Text(
                     "Restaurant\nInstagramable",
                     style: myTexTheme.headline5,
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
+                    height: MediaQuery.of(context).size.height * 0.08,
                   ),
                   Text(
                     "Start your day with a cup of coffee and\na plate of traffles at your favorite\nrestaurant.",
                     style: myTexTheme.caption!.copyWith(color: greyColor),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
+                    height: MediaQuery.of(context).size.height * 0.08,
                   ),
                   ElevatedButton(
                     child: SizedBox(
