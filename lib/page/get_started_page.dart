@@ -72,7 +72,7 @@ class GetStartedPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushReplacementNamed(context, '/home');
                     },
                   ),
                 ],

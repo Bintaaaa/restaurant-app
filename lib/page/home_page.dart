@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:submission_bfaf_1/data/restaurants.dart';
+import 'package:submission_bfaf_1/page/detail_restaurant_page.dart';
 import 'package:submission_bfaf_1/style/color.dart';
 import 'package:submission_bfaf_1/style/const.dart';
 import 'package:submission_bfaf_1/style/text_style.dart';
+import 'package:submission_bfaf_1/widget/transisi.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     Widget _header() {
@@ -40,7 +41,8 @@ class HomePage extends StatelessWidget {
     Widget _cardRestaurant(BuildContext context, Restaurants restaurant) {
       return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/detail-restaurant', arguments: restaurant);
+          // Navigator.pushNamed(context, '/detail-restaurant', arguments: restaurant);
+            Navigator.of(context).push(Geser(child: DetailRestaurantPage(restaurants: restaurant,)));
         },
         child: Container(
           margin: EdgeInsets.only(bottom: defaultMargin),
@@ -68,8 +70,7 @@ class HomePage extends StatelessWidget {
                       color: whiteColor,
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    child: Expanded(
-                      child: Column(
+                    child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
@@ -77,7 +78,7 @@ class HomePage extends StatelessWidget {
                             children: [
                               Text(
                                 restaurant.name.toString(),
-                                style: myTexTheme.headline6,
+                                style: myTexTheme.headline6?.copyWith(fontSize: 18),
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Row(
@@ -109,7 +110,6 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
