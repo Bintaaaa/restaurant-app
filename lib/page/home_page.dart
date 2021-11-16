@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:submission_bfaf_1/API/api_service.dart';
 import 'package:submission_bfaf_1/data/restaurants.dart';
 import 'package:submission_bfaf_1/page/detail_restaurant_page.dart';
+import 'package:submission_bfaf_1/page/search_page.dart';
+import 'package:submission_bfaf_1/provider/restaurants_provider.dart';
 import 'package:submission_bfaf_1/style/color.dart';
 import 'package:submission_bfaf_1/style/const.dart';
 import 'package:submission_bfaf_1/style/text_style.dart';
+import 'package:submission_bfaf_1/widget/card_restaurant.dart';
+import 'package:submission_bfaf_1/widget/search_bar.dart';
 import 'package:submission_bfaf_1/widget/transisi.dart';
 
 class HomePage extends StatelessWidget {
@@ -18,102 +25,39 @@ class HomePage extends StatelessWidget {
     }
 
     Widget _searchBar() {
-      return Container(
-        margin: EdgeInsets.only(top: defaultMargin, bottom: defaultMargin),
-        padding: EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 3,
-        ),
-        decoration: BoxDecoration(
-            border: Border.all(color: softGreyColor),
-            borderRadius: BorderRadius.circular(30)),
-        child: TextField(
-          decoration: InputDecoration(
-              hintText: "Search Your Favorite Restaurant",
-              hintStyle: TextStyle(color: softGreyColor),
-              icon: Image.asset("assets/icon_search.png"),
-              focusedBorder: InputBorder.none,
-              enabledBorder: InputBorder.none),
-        ),
-      );
+      return SearchBar();
     }
 
-    Widget _cardRestaurant(BuildContext context, Restaurants restaurant) {
-      return GestureDetector(
-        onTap: () {
-          // Navigator.pushNamed(context, '/detail-restaurant', arguments: restaurant);
-            Navigator.of(context).push(Geser(child: DetailRestaurantPage(restaurants: restaurant,)));
-        },
-        child: Container(
-          margin: EdgeInsets.only(bottom: defaultMargin),
-          child: Stack(
+    Widget _buildList(BuildContext context){
+      return Consumer<RestaurantProvider>(
+          builder: (context, state, _) {
+        if(state.state == ResultState.Loading){
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }else if(state.state == ResultState.HashData){
+          return ListView.builder(
+            shrinkWrap: true,
+            primary: false,
+            itemCount: state.result.restaurantList.length,
+            itemBuilder: (context, index){
+              var restaurants = state.result.restaurantList[index];
+              return CardRestaurant(restaurantList: restaurants, onTap: (){});
+            },
+          );
+        }else if (state.state == ResultState.Nodata) {
+          return Center(child: Text(state.message));
+        } else if (state.state == ResultState.Error) {
+          return Center(child: Column(
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 300,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  image: DecorationImage(
-                      image: NetworkImage(restaurant.pictureId),
-                      fit: BoxFit.cover),
-                ),
-              ),
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    margin: EdgeInsets.all(defaultMargin),
-                    padding: EdgeInsets.all(defaultPadding),
-                    height: 110,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: whiteColor,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                restaurant.name.toString(),
-                                style: myTexTheme.headline6?.copyWith(fontSize: 18),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Row(
-                                children: [
-                                  Image.asset("assets/star_rate.png"),
-                                  Text(
-                                    restaurant.rating.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: myTexTheme.caption!
-                                        .copyWith(fontSize: 18),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset("assets/location_on.png"),
-                              Text(
-                                restaurant.city,
-                                style: myTexTheme.caption!.copyWith(
-                                    fontSize: 18, color: softGreenColor),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+              Lottie.asset('assets/error.json'),
+              Text(state.message,style: myTexTheme.headline5,)
             ],
-          ),
-        ),
-      );
+          ));
+        } else {
+          return Center(child: Text(''));
+        }
+      });
     }
 
     return SafeArea(
@@ -128,21 +72,8 @@ class HomePage extends StatelessWidget {
               children: [
                 _header(),
                 _searchBar(),
-                FutureBuilder<String>(
-                  future: DefaultAssetBundle.of(context)
-                      .loadString('assets/local_restaurant.json'),
-                  builder: (context, snapshot) {
-                    final List<Restaurants> restaurant =
-                        parseRestaurants(snapshot.data);
-                    return ListView.builder(
-                      primary: false, // untuk scroll bila didalam scrollview
-                      shrinkWrap: true,
-                      itemCount: restaurant.length,
-                      itemBuilder: (context, index) {
-                        return _cardRestaurant(context, restaurant[index]);
-                      },
-                    );
-                  },
+                ChangeNotifierProvider<RestaurantProvider>(create: (_) => RestaurantProvider(apiService: ApiService()),
+                child: _buildList(context),
                 )
               ],
             ),
