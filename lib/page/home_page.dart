@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
             itemCount: state.result.restaurantList.length,
             itemBuilder: (context, index){
               var restaurants = state.result.restaurantList[index];
-              return CardRestaurant(restaurantList: restaurants, onTap: (){});
+              return CardRestaurant(restaurantList: restaurants,);
             },
           );
         }else if (state.state == ResultState.Nodata) {

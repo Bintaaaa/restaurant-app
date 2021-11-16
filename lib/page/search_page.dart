@@ -9,7 +9,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Widget _searchBar(){
-      return SearchBar();
+      return SearchBar(isFocus: true);
     }
 
     return Scaffold(

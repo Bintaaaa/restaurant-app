@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:submission_bfaf_1/data/restaurant_detail.dart';
 import 'package:submission_bfaf_1/data/restaurants.dart';
 import 'package:http/http.dart' as http;
 class ApiService {

@@ -1,27 +1,29 @@
-import 'package:submission_bfaf_1/data/drinks.dart';
-import 'package:submission_bfaf_1/data/foods.dart';
+import 'dart:convert';
+
+import 'package:submission_bfaf_1/data/category.dart';
 
 class Menus {
-  final List<Foods> foods;
-  final List<Drinks> drinks;
+  Menus({
+    required this.foods,
+    required this.drinks,
+  });
 
-  Menus({required this.foods, required this.drinks});
+  List<Category> foods;
+  List<Category> drinks;
 
-  List<Object> get props => [
-        foods,
-        drinks,
-      ];
+  factory Menus.fromRawJson(String str) => Menus.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory Menus.fromJson(Map<String, dynamic> json) => Menus(
-        foods: List<Foods>.from(
-          json['foods'].map(
-            (food) => Foods.fromJson(food),
-          ),
-        ),
-        drinks: List<Drinks>.from(
-          json['drinks'].map(
-            (drink) => Drinks.fromJson(drink),
-          ),
-        ),
-      );
+    foods:
+    List<Category>.from(json["foods"].map((x) => Category.fromJson(x))),
+    drinks: List<Category>.from(
+        json["drinks"].map((x) => Category.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "foods": List<dynamic>.from(foods.map((x) => x.toJson())),
+    "drinks": List<dynamic>.from(drinks.map((x) => x.toJson())),
+  };
 }

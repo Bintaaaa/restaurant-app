@@ -4,7 +4,8 @@ import 'package:submission_bfaf_1/style/color.dart';
 import 'package:submission_bfaf_1/style/const.dart';
 
 class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key}) : super(key: key);
+  final bool isFocus;
+  const SearchBar({Key? key,this.isFocus = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class SearchBar extends StatelessWidget {
             icon: Image.asset("assets/icon_search.png"),
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none),
-        autofocus: true,
+        autofocus: isFocus,
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
         },

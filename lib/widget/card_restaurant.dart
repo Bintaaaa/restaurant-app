@@ -8,16 +8,14 @@ import 'package:submission_bfaf_1/widget/transisi.dart';
 
 class CardRestaurant extends StatelessWidget {
   final RestaurantList restaurantList;
-  final Function() onTap;
-  const CardRestaurant({Key? key, required this.restaurantList, required this.onTap}) : super(key: key);
+  const CardRestaurant({Key? key, required this.restaurantList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      //     () {
-      //   Navigator.of(context).push(Geser(child: DetailRestaurantPage(restaurants: restaurant,)));
-      // },
+      onTap: () {
+        Navigator.of(context).push(Geser(child: DetailRestaurantPage(id: restaurantList.id,)));
+      },
       child: Container(
         margin: EdgeInsets.only(bottom: defaultMargin),
         child: Stack(
