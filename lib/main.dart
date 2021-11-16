@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Kotak Temu",
+      title: "Kotak Temus",
       theme: ThemeData(
         textTheme: myTexTheme,
         textSelectionTheme: TextSelectionThemeData(
