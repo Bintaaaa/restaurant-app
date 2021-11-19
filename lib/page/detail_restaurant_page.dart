@@ -8,6 +8,7 @@ import 'package:submission_bfaf_1/style/color.dart';
 import 'package:submission_bfaf_1/style/const.dart';
 import 'package:submission_bfaf_1/style/text_style.dart';
 import 'package:submission_bfaf_1/widget/btn_back.dart';
+import 'package:submission_bfaf_1/widget/btn_favorite.dart';
 import 'package:submission_bfaf_1/widget/item_menu.dart';
 
 class DetailRestaurantPage extends StatelessWidget {
@@ -25,6 +26,7 @@ class DetailRestaurantPage extends StatelessWidget {
         fit: BoxFit.cover,
       );
     }
+
     Widget _itemMenu(context, index) {
       return ItemMenu(
         name: index,
@@ -177,8 +179,6 @@ class DetailRestaurantPage extends StatelessWidget {
       );
     }
 
-
-
     Widget _build() {
       return Consumer<RestaurantDetailPovider>(builder: (context, state, _) {
         if (state.state == ResultState.loading) {
@@ -225,11 +225,14 @@ class DetailRestaurantPage extends StatelessWidget {
       body: Stack(
         children: [
           ChangeNotifierProvider(
-            create: (_) => RestaurantDetailPovider(
-                apiService: ApiService(), id: id),
+            create: (_) =>
+                RestaurantDetailPovider(apiService: ApiService(), id: id),
             child: _build(),
           ),
-          BtnBack()
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [BtnBack(), BtnFav()],
+          )
         ],
       ),
     );
