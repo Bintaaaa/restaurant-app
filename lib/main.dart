@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:submission_bfaf_1/page/detail_restaurant_page.dart';
 import 'package:submission_bfaf_1/page/get_started_page.dart';
 import 'package:submission_bfaf_1/page/home_page.dart';
 import 'package:submission_bfaf_1/page/splashscreen_page.dart';

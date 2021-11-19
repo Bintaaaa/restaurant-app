@@ -8,7 +8,7 @@ class Geser extends PageRouteBuilder {
       pageBuilder: (context, animation, secondaryAnimation) => child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
         position: Tween<Offset>(
-          begin: const Offset(-1.0, -1.0),
+          begin: const Offset(-1.0, 1),
           end: Offset.zero,
         ).animate(animation),
         child: child,

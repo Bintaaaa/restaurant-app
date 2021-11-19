@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:submission_bfaf_1/API/api_service.dart';
-import 'package:submission_bfaf_1/data/restaurant_list.dart';
 import 'package:submission_bfaf_1/data/restaurants.dart';
 
-enum ResultState { Loading, Nodata, HashData, Error }
+enum ResultState { loading, nodata, hashData, error }
 
 class RestaurantProvider extends ChangeNotifier {
   final ApiService apiService;
@@ -24,22 +23,22 @@ class RestaurantProvider extends ChangeNotifier {
 
   Future<dynamic> _fetchAllRestaurant() async {
     try {
-      _state = ResultState.Loading;
+      _state = ResultState.loading;
       notifyListeners();
       final restaurant = await apiService.listRestaurant();
       if (restaurant.restaurantList.isEmpty) {
-        _state = ResultState.Nodata;
+        _state = ResultState.nodata;
         notifyListeners();
-        return _message = 'Empty Data';
+        return _message = 'There is No Data in This System!';
       } else {
-        _state = ResultState.HashData;
+        _state = ResultState.hashData;
         notifyListeners();
         return _restaurants = restaurant;
       }
     } catch (e) {
-      _state = ResultState.Error;
+      _state = ResultState.error;
       notifyListeners();
-      return _message = 'Periksa Kembali Koneksi anda';
+      return _message = 'Please Check Your Connection!';
     }
   }
 }

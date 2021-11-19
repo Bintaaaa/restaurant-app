@@ -1,11 +1,14 @@
+
 import 'package:flutter/material.dart';
-import 'package:submission_bfaf_1/page/search_page.dart';
 import 'package:submission_bfaf_1/style/color.dart';
 import 'package:submission_bfaf_1/style/const.dart';
 
 class SearchBar extends StatelessWidget {
   final bool isFocus;
-  const SearchBar({Key? key,this.isFocus = false}) : super(key: key);
+  final Function()? onTap;
+  final Function(String)? onChange;
+  final TextEditingController? controller;
+  const SearchBar({Key? key,this.isFocus = false, this.onTap, this.onChange, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +22,7 @@ class SearchBar extends StatelessWidget {
           border: Border.all(color: softGreyColor),
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
             hintText: "Search Your Favorite Restaurant",
             hintStyle: TextStyle(color: softGreyColor),
@@ -26,9 +30,8 @@ class SearchBar extends StatelessWidget {
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none),
         autofocus: isFocus,
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
-        },
+        onTap: onTap,
+        onChanged: onChange,
       ),
     );
   }

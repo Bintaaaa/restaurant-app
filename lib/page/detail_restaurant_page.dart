@@ -3,11 +3,11 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_bfaf_1/API/api_service.dart';
 import 'package:submission_bfaf_1/data/restaurant_profile.dart';
-import 'package:submission_bfaf_1/data/restaurants.dart';
 import 'package:submission_bfaf_1/provider/restaurant_detail_provider.dart';
 import 'package:submission_bfaf_1/style/color.dart';
 import 'package:submission_bfaf_1/style/const.dart';
 import 'package:submission_bfaf_1/style/text_style.dart';
+import 'package:submission_bfaf_1/widget/btn_back.dart';
 import 'package:submission_bfaf_1/widget/item_menu.dart';
 
 class DetailRestaurantPage extends StatelessWidget {
@@ -177,34 +177,22 @@ class DetailRestaurantPage extends StatelessWidget {
       );
     }
 
-    Widget _btnBack() {
-      return SafeArea(
-        child: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-            margin: EdgeInsets.all(defaultMargin),
-            child: Image.asset("assets/icon_back.png"),
-          ),
-        ),
-      );
-    }
+
 
     Widget _build() {
       return Consumer<RestaurantDetailPovider>(builder: (context, state, _) {
-        if (state.state == ResultState.Loading) {
+        if (state.state == ResultState.loading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state.state == ResultState.HashData) {
+        } else if (state.state == ResultState.hashData) {
           return Stack(
             children: [
               _imageRestaurant(context, state.result.restaurant),
               _detailRestaurant(context, state.result.restaurant),
             ],
           );
-        } else if (state.state == ResultState.NoData) {
+        } else if (state.state == ResultState.noData) {
           return Center(
             child: Column(
               children: [
@@ -216,7 +204,7 @@ class DetailRestaurantPage extends StatelessWidget {
               ],
             ),
           );
-        } else if (state.state == ResultState.Error) {
+        } else if (state.state == ResultState.error) {
           return Center(
               child: Column(
             children: [
@@ -241,7 +229,7 @@ class DetailRestaurantPage extends StatelessWidget {
                 apiService: ApiService(), id: id),
             child: _build(),
           ),
-          _btnBack(),
+          BtnBack()
         ],
       ),
     );

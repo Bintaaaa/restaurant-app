@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:submission_bfaf_1/data/restaurant_detail.dart';
+import 'package:submission_bfaf_1/data/restaurant_search.dart';
 import 'package:submission_bfaf_1/data/restaurants.dart';
 import 'package:http/http.dart' as http;
 class ApiService {
@@ -14,7 +15,7 @@ class ApiService {
     if (response.statusCode == 200) {
       return Restaurants.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Maaf Silahkan Coba Lagi');
+      throw Exception("Maaf Silahkan Coba Kembali Lain Waktu");
     }
   }
 
@@ -23,8 +24,16 @@ class ApiService {
     if(response.statusCode == 200){
       return RestaurantsDetail.fromJson(json.decode(response.body));
     }else{
-      throw Exception('Maaf Silahkan Coba Lagi');
+      throw Exception("Maaf Silahkan Coba Kembali Lain Waktu");
     }
+  }
 
+  Future<RestaurantSearch> searchRestaurant(query) async {
+    final response = await http.get(Uri.parse(_baseUrl + _search + query));
+    if(response.statusCode == 200){
+      return RestaurantSearch.fromJson(json.decode(response.body));
+    }else{
+      throw Exception("Maaf Silahkan Coba Kembali Lain Waktu");
+    }
   }
 }
